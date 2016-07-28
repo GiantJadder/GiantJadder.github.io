@@ -49,6 +49,7 @@
                 xmlhttp = new XMLHttpRequest(); // no support for old browser
                 if (xmlhttp!=null)
                 {
+                  xmlhttp.onprogress = progressChange;
                   xmlhttp.onreadystatechange = state_Change;
                   xmlhttp.open("GET",url,true);
                   xmlhttp.send(null);
@@ -59,6 +60,16 @@
                 }
             }
 
+            function progressChange(evt)
+            {
+                if(evt.lengthComputable)    
+                {
+                    var percent = evt.loaded * 100. / evt.total;
+                    console.log("prog: " + percent);
+                }
+            }
+            
+            
             function state_Change()
             {
                 if (xmlhttp.readyState==4)
