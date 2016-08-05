@@ -1,0 +1,161 @@
+@charset "utf-8";
+/* CSS Document */
+ 
+
+.container_pad
+{
+    position: absolute;
+     
+    left: 220px;
+    right: 0px;
+
+    
+    margin-left: 0px;
+    margin-right: 0px;
+    
+    margin-top: 10px;
+    margin-bottom: 40px;
+    
+/*    background-color: aquamarine;*/
+}
+
+
+
+/* ----------  Header ------------ */
+  
+#blistHeader_pad
+{  
+    position: fixed;
+    left: 0px;
+    top: 0px;
+    
+    width:220px;
+    height:100%;
+    
+    background-color: #1d1f21;
+  
+/*
+    background-image: url(../../images/t3.png);
+    background-repeat: repeat-y;
+*/
+     
+    
+}
+
+
+/* ----------  LOGO ------------ */
+
+#logoContainer_pad
+{
+    position: absolute;
+    left: 10px;
+    right: 10px;
+    top: 10px;
+    height: 100px;
+}
+
+
+/* ----------  Search Bar ------------ */
+#searchBarBG_pad
+{
+    position: absolute;
+    
+    left: 10px;
+    right: 10px;
+    
+    top: 130px;
+    height: 50px;
+    
+/*    background-color: darkmagenta;*/
+}
+ 
+#searchBar_pad
+{
+    position: absolute;
+    
+    left: 10px;
+    right: 10px;
+    
+    top: 130px;
+    height: 50px;
+    
+/*    background-color: darkmagenta;*/
+}
+
+#searchInputContainer_pad
+{
+    position: absolute;
+    
+    left: 10px;
+    right: 40px;
+    top: 0px;
+    height: 50px;
+    
+}
+
+#searchBtn_pad
+{   
+    position: absolute;
+    right: 0px;
+    width: 40px;
+    top: 0px;
+    height: 50px;
+    
+    cursor: pointer;
+    
+/*    background-color:chartreuse;*/
+}
+
+
+/* ----------  Btns ------------ */
+
+.menuBtn_pad
+{
+    position: absolute;
+    left: 0px;
+    right: 0px;
+    height: 60px;
+    
+    color: #d1d1d1;
+/*    background-color: #161718;  */
+    
+    cursor: pointer;
+}
+
+
+.menuBtn_pad:hover
+{
+    background-color: #161718;
+}
+
+
+.menuBtnIcon_pad
+{
+    position: absolute;
+    left: 10px;
+    top: 10px;
+    width: 40px;
+    height: 40px;
+}
+
+.menuBtnText_pad
+{
+    position: absolute;
+    left: 60px;
+    right: 0px;
+    top: 0px;
+    height: 60px;
+    line-height: 60px;
+    
+    text-align: left; 
+}
+
+#tagsBtn_pad
+{
+    top: 200px;
+}
+
+#configBtn_pad
+{
+    top: 260px;
+}

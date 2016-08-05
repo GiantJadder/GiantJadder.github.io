@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html>
+    
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+         
+        <title>Test</title>
+        
+        <link rel="stylesheet" href="../css/global.css">
+        <script type="text/javascript" src="../js/gs/plugins/CSSPlugin.js" ></script>
+        <script type="text/javascript" src="../js/gs/easing/EasePack.js" ></script>
+        <script type="text/javascript" src="../js/gs/TweenLite.js" ></script>
+        
+        
+        <style type="text/css">
+        
+            .btnTest{
+                position: absolute;
+                left: 20px;
+                top:20px;
+                width: 80px;
+                height: 30px;
+                
+                background-color: blue;
+            }
+            
+            #aniTarget1{
+                position: absolute;
+                
+                left: 100px;
+                top: 100px;
+                width: 100px;
+                height: 100px;
+                
+                background-color: brown;
+                
+                transform-origin: 0% 0%;
+/*                transform: rotateX(45deg);*/
+    
+            }
+            
+            #aniTarget2{
+                position: absolute;
+                
+                left: 100px;
+                top: 100px;
+                width: 100px;
+                height: 100px;
+                
+                background-color: green;
+                
+                transform-origin: 0% 100%;
+                 
+                transform: rotateX(-45deg);
+            }
+            
+             
+        </style>
+        
+        
+             
+        <script type="text/javascript">
+             
+            function tt()
+            {
+                var aniTarget = document.getElementById("aniTarget1");
+                
+                var targetRotate = "rotateX(60deg)";
+                 
+                TweenLite.to(aniTarget, 0.5, {transform:targetRotate,ease:Strong.easeOut});
+                
+            }
+             
+             
+        </script>
+        
+        
+    </head>
+ 
+    
+<body bgcolor="gray">
+<div id="rootDiv">
+
+   
+      
+    <div class="btnTest" onclick="tt();">Test</div>
+   
+    <div id="aniTarget2">
+    </div>
+    
+    <div id="aniTarget1">
+    </div>
+    
+    
+    
+    
+</div>   
+</body>
+
+</html>

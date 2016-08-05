@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple Computer//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<rootNode>
+    
+<Article>
+	<aid>1</aid>
+	<atitle>主版本发布</atitle>
+	<cdate>2016-1-1</cdate>
+    <mdate>2016-1-1</mdate> 
+	<rfolder>v1</rfolder>
+	<fname>16-5-13_15-34</fname>
+    <summary><![CDATA[
+    这是摘要啊啊 <br /> 
+]]></summary>
+     
+</Article>
+</rootNode>

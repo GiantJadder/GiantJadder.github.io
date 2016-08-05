@@ -1,0 +1,153 @@
+@charset "utf-8";
+/* CSS Document */
+ 
+ 
+/* ----------  Tags Layer ------------ */
+#tagsLayer
+{
+    position: fixed;
+    left: 0px;
+    right: 0px;
+    
+    top: 0px;
+    height: 100%;
+ 
+    display: none;
+}
+
+
+#tagsLayerBack
+{
+    position: absolute;
+    left: 0px;
+    right: 0px;
+    top: 0px;
+    bottom: 0px;
+    
+    background-color: black;
+    
+    filter:alpha(opacity=80);
+    -moz-opacity:0.8;
+    -khtml-opacity: 0.8;
+    opacity: 0.8;   
+}
+
+#tagsTitle
+{
+    position: absolute;
+    left: 0px;
+    right: 0px;
+    top: 0px;
+    height: 60px;
+    
+    line-height: 60px;
+    
+    background-color: #1d1f21;
+    color: white;
+}
+
+#tagsCloseButton
+{
+    position: absolute;
+    right: 0px;
+    top: 0px;
+    height: 60px;
+    width: 60px;
+    
+    background-color: #1d1f21; 
+}
+ 
+#tagsContainer
+{
+    position: absolute;
+    left: 10px;
+    right: 10px;
+    top: 70px;
+    bottom: 10px;
+   
+/*    background-color: blue;*/
+    
+    overflow-x: hidden;
+    overflow-y: auto;
+    
+    text-align: center;
+}
+
+ 
+ 
+
+/*
+.tag_cell
+{
+    position: relative;
+    width: 140px;
+    height: 80px;
+    
+    font-size: 20px;
+    
+    line-height: 80px;
+    text-align: center;
+    
+    margin: 10px;
+ 
+      
+    color: #FFF; 
+    background-color: #1d1f21 ;
+    
+    float: left;
+}
+*/
+
+
+.tag_cell-normal,
+.tag_cell-active
+{
+    position: relative;
+    width: 90px;
+    height: 60px;
+    
+    font-size: 12px;
+    
+    line-height: 60px;
+    text-align: center;
+     
+    color: #FFF; 
+    background-color: #1d1f21 ;
+    
+    float: left;
+    
+    overflow: hidden;
+     
+    margin:1px;
+    
+    outline-color: #101011;
+    outline-width: 1px;
+    outline-style: solid;
+    
+     -moz-user-select:none; /*火狐*/
+     -webkit-user-select:none; /*webkit浏览器*/
+     -ms-user-select:none; /*IE10*/
+     user-select:none;
+}
+
+.tag_cell-active
+{
+    background-color: #4ea6ff;
+}
+
+
+.tag_cell-normal:hover
+{
+    outline-color: #4ea6ff;
+    outline-width: 1px;
+    outline-style: solid;
+}
+
+
+.tag_cell-active:hover
+{
+    outline-color: #FFF;
+    outline-width: 1px;
+    outline-style: solid;
+}
+

@@ -1,0 +1,691 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+         
+        <title>Kelvin's Blog</title>
+        
+        <script type="text/javascript">
+            console.log("Start Link CSS");
+            
+            function linkCssFile(url)
+            {
+                var link = document.createElement("link");
+                link.rel = "stylesheet";
+                link.type = "text/css";
+                link.href = url;
+                document.getElementsByTagName("head")[0].appendChild(link);
+            }
+             
+            linkCssFile("../css/blist/blist.css");
+            linkCssFile("../css/blist/blist_pad.css");
+            linkCssFile("../css/blist/blist_phone.css");
+            linkCssFile("../css/blist/blist_tags.css");
+            linkCssFile("../css/blist/blist_config.css"); 
+            
+            console.log("End Link CSS");
+        </script>
+        
+        <link rel="stylesheet" href="../css/global.css">
+        
+<!--
+        <link rel="stylesheet" href="../css/blist/blist.css">
+        <link rel="stylesheet" href="../css/blist/blist_pad.css">
+        <link rel="stylesheet" href="../css/blist/blist_phone.css">
+        <link rel="stylesheet" href="../css/blist/blist_tags.css">
+        <link rel="stylesheet" href="../css/blist/blist_config.css">
+-->
+        
+        <script type="text/javascript" src="../js/gs/plugins/CSSPlugin.js" ></script>
+        <script type="text/javascript" src="../js/gs/easing/EasePack.js" ></script>
+        <script type="text/javascript" src="../js/gs/TweenLite.js" ></script>
+        
+<!--
+        <style type="text/css"> 
+        </style>
+-->
+        
+        
+        
+        <script type="text/javascript">
+
+             
+            /* ------- TAGS -------- */
+            
+            var CONST_tags = [
+              "All",
+              "iOS",
+              "Objective-C",
+              "C/C++", 
+              "UWP",
+              "Web",
+              "OpenGL",
+              "Metal",
+              "Graphics",
+              "Math",
+              "VR",
+              "Design"
+            ];
+            
+            /* ------- parameters -------- */
+            
+            var CONST_trigger_width = 600; 
+            var status_is_phone = 0; //默认不是phone
+             
+            /* ------- window initializing -------- */
+     
+            window.onload = function loadHandler()
+            {
+                console.log("WINDOW LOAD");
+                
+                status_is_phone = 0;
+                device_type_change(0);
+                device_type_should_change();
+ 
+                
+                display_tags();
+                request_metadata();
+                 
+                var screen_w =  window.screen.width;
+                var body_client_w = document.body.clientWidth;
+                var body_offset_w = document.body.offsetWidth;
+                var body_scroll_w = document.body.scrollWidth;
+                 
+//                alert("screen_w : " + screen_w + " \n " + 
+//                     "body_client_w : " + body_client_w + " \n " +
+//                      "body_offset_w : " + body_offset_w + " \n " +
+//                      "body_scroll_w : " + body_scroll_w + " \n "
+//                      
+//                     ); 
+            } 
+            
+            window.onresize = function resizeHandler()
+            {
+                device_type_should_change();
+            }
+    
+            function device_type_should_change()
+            {
+                //var winW = window.screen.width;
+                
+                var winW = document.body.clientWidth;
+                
+                if( winW < CONST_trigger_width )
+                {
+                    if( status_is_phone == 0)
+                    {
+                        status_is_phone = 1;   
+                        device_type_change(1);
+                     
+                    }   
+                }
+                else
+                {
+                    if( status_is_phone == 1)
+                    {
+                        status_is_phone = 0;
+                        device_type_change(0);
+                    }
+                }
+            }
+           
+            
+            function device_type_change(isPhone)
+            {
+                var cls_suffix = "pad";
+                
+                if(isPhone == 1)
+                {
+                    cls_suffix = "phone";    
+                }
+                 
+                var container_cls = "container_" + cls_suffix; 
+                var containerDiv = document.getElementById("blistContainer"); 
+                containerDiv.className = container_cls;
+                 
+                
+                var header_pad = document.getElementById("blistHeader_pad");
+                var header_phone =  document.getElementById("blistHeader_phone");
+                
+                if(isPhone == 1)
+                {
+                    header_pad.style.display = 'none';
+                    header_phone.style.display = 'block';
+                }
+                else
+                {
+                    header_pad.style.display = 'block';
+                    header_phone.style.display = 'none';
+                }
+            }
+            
+            
+            /* ------- request metadata  -------- */
+            
+            var arr_articles_metadata = new Array();
+            
+            function request_metadata()
+            {
+                var xmlPath = "http://172.18.103.199/BlogStaticLocal/zdata/logs.xml";
+                loadXMLDoc(xmlPath);
+            }
+            
+            
+            var xmlhttp;
+            function loadXMLDoc(url)
+            {
+                xmlhttp = new XMLHttpRequest(); // no support for old browser
+                if (xmlhttp!=null)
+                { 
+                  xmlhttp.onreadystatechange = state_Change;
+                  xmlhttp.open("GET",url,true);
+                  xmlhttp.send(null);
+                }
+                else
+                {
+                  alert("Please use modern browser.");
+                }
+            }
+
+            function state_Change()
+            {
+                if (xmlhttp.readyState==4)
+                {
+                    // 4 = "loaded"
+                    if (xmlhttp.status==200)
+                    {
+                        var rNode = xmlhttp.responseXML.documentElement; 
+                        var childList = rNode.getElementsByTagName("Article");
+                        
+                        handle_xml_data(rNode, childList);
+                    }
+                    else
+                    {
+                        alert("Problem retrieving XML data");
+                    }
+                }
+            }
+            
+//            function handle_xml_data(rNode, childList)
+//            { 
+//                 
+//                console.log( rNode  );
+//                 
+//                
+//                var len = childList.length;     
+//                var ele0 = childList[0]; 
+//                var childNodes = ele0.childNodes; 
+//                var len = childNodes.length;
+//                
+//                
+//                for(var i = 0; i < len; i++)    
+//                {
+//                    var elei = childNodes[i];
+//                      
+//                    console.log( '-----' );
+//                    console.log( '[Type] : ' + elei.constructor.name );
+//                    console.log( '[nodeType] : ' + elei.nodeType );
+//                    console.log( '[NodeName] :' + elei.nodeName ); 
+//                    console.log( '[TagName] :' + elei.tagName ); 
+//                    console.log( '[innerHTML] : ' + elei.innerHTML );  
+//                    console.log( '[textContent] : ' + elei.textContent );
+//                    
+//                }
+//                
+//                /**************
+//                 对于Element类型的对象，NodeName， 与 TagName 相同。
+//                 对于Text类型的对象，只有NodeName，没有TagName。 
+//                *************/
+//                
+//                
+//                
+//            }
+            
+            
+            
+            function handle_xml_data(rNode, childList)
+            { 
+                 
+                //console.log( rNode  );
+                 
+                
+//                var blistContainer = document.getElementById("blistContainer");
+//                
+//                var len = childList.length;     
+//                var ele0 = childList[0];
+//                var childNodes = ele0.childNodes; 
+//                var len = childNodes.length;
+//                
+//                
+//                
+//                
+//                for(var i = 0; i < len; i++)    
+//                {
+//                    var elei = childNodes[i];
+//                    
+//                    if(elei.nodeType != 1)
+//                    {
+//                        continue;
+//                    } 
+//                     
+//                    var newCellDiv = document.createElement("div");
+//                    newCellDiv.className = 'list_cell'; 
+//                    newCellDiv.innerHTML = elei.textContent;
+//                    
+//                    blistContainer.appendChild(newCellDiv);
+//                }
+            
+            }
+             
+            /* ------- display cells  -------- */
+            
+            var page_index = 0;
+            var page_size = 5;
+                 
+            function display_page_specified(pindex)
+            {  
+            }
+            
+            
+            
+            
+            
+            /* ------- display tags  -------- */
+            
+            var tag_focus_index = 0; // all
+             
+            function display_tags()
+            {
+                var tags_container = document.getElementById("tagsContainer");
+                
+                var len = CONST_tags.length;
+                
+                for(var i = 0; i<len; i++)
+                {
+                    var tag_str = CONST_tags[i];
+                    
+                    var tag_cell = document.createElement("div");
+                   
+                    tag_cell.className = 'tag_cell-normal'; 
+                    tag_cell.innerHTML = tag_str;
+                    
+                    tags_container.appendChild(tag_cell);
+                    
+                    tag_cell.onclick = tag_cell_click;
+                    
+                    tag_cell.cell_index = i;
+                    
+                    //tag_cell.addEventListener("click", tag_cell_click(i));
+                } 
+                
+//                var len =
+//                tags_container.children.length;
+                
+                synchronize_tag_style();
+            }
+
+            
+            function synchronize_tag_style()
+            {
+                //tag_focus_index 
+                var tags_container = document.getElementById("tagsContainer");
+                
+                var tagCells = tags_container.children;
+                var len = tagCells.length;
+                
+                for(var i = 0; i< len; i++)
+                {
+                    var tagCelli = tagCells[i];
+                     
+                    if(i == tag_focus_index)
+                    {
+                        tagCelli.className = 'tag_cell-active';
+                    }
+                    else
+                    {
+                        tagCelli.className = 'tag_cell-normal';
+                    }
+                }
+                
+                
+                var tag_text_display = document.getElementById("configBtnText_Tags");
+                 
+                if( tag_focus_index == 0)
+                {
+                    tag_text_display.innerHTML = "Tags";
+                }
+                else
+                {
+                    var tag_str = CONST_tags[tag_focus_index];
+                    tag_text_display.innerHTML = tag_str;
+                } 
+            }
+            
+            
+            function tag_cell_click(evt)
+            {
+                var new_cell_index =  evt.target.cell_index;
+                
+                if( tag_focus_index == new_cell_index)
+                {
+                    //just close
+                    close_tags();
+                    return;
+                }
+                
+                tag_focus_index = new_cell_index;
+                
+                synchronize_tag_style();
+                
+                close_tags();
+                
+                //filter list
+
+                
+            }
+            
+            
+            
+            
+    
+             
+            /* ------- event handler -------- */ 
+            function show_config()
+            {
+                var configLayer = document.getElementById("configLayer");
+                configLayer.style.display = 'block';
+                
+            }
+            
+            function hide_config()
+            {
+                var configLayer = document.getElementById("configLayer");
+                configLayer.style.display = 'none';
+            }
+     
+            
+            function show_tags()
+            { 
+                var tagsLayer = document.getElementById("tagsLayer");
+                tagsLayer.style.display = 'block'; 
+            }
+            
+            function close_tags()
+            {
+                var tagsLayer = document.getElementById("tagsLayer");
+                tagsLayer.style.display = 'none';
+            }
+            
+            
+            
+            function search_handler_pad()
+            {
+                var sinput = document.getElementById("searchInput_pad");
+                var vv = sinput.value; 
+                alert(vv);
+            }
+             
+            function search_show_phone()
+            {
+                var slayer = document.getElementById("searchLayer_phone");
+                
+                var tarY = "0px"
+                
+                TweenLite.to(slayer, 0.5, {top:tarY,ease:Strong.easeOut});
+            }
+            
+            function search_hide_phone()
+            {
+                var slayer = document.getElementById("searchLayer_phone");
+                
+                var tarY = "-60px"
+                
+                TweenLite.to(slayer, 0.5, {top:tarY,ease:Strong.easeOut});
+            }
+              
+            /* ------- util methods  -------- */
+             
+        </script> 
+    </head>
+     
+<body>
+    
+    
+    <!-- --------- PAD & Desktop ------------ -->
+    <div id="blistHeader_pad">
+         
+        <div id="logoContainer_pad">
+<!--
+            <img class="aspectFillImg" 
+                 src="../images/log_text.png">
+            </img>
+-->
+        
+            <img class="aspectFillImg" 
+                 src="../images/log_text.png">
+            </img>
+        
+        
+        
+        </div>
+          
+        <div id="searchBarBG_pad">
+            
+            <img class="aspectFillImg" 
+                 src="../images/search_bar.png">
+            </img>
+            
+        </div>
+    
+        <div id="searchBar_pad">
+            
+            <div id="searchInputContainer_pad">
+                <input id="searchInput_pad" type="text" class="blank_input"></input>
+            </div>
+            
+            <div id="searchBtn_pad" onclick="search_handler_pad();"> 
+            </div>
+                
+        </div>
+ 
+        
+        <div id="tagsBtn_pad" class="menuBtn_pad" onclick="show_tags();">
+            
+            <div class="menuBtnIcon_pad">
+                <img src="../images/tag_icon_gray.png" class="aspectFillImg_80P">
+                </img>
+            </div>
+
+            <div class="menuBtnText_pad" id="configBtnText_Tags">
+                Tags
+            </div>
+            
+            
+        </div>
+
+        
+        <div id="configBtn_pad" class="menuBtn_pad" onclick="show_config();">
+            
+            <div class="menuBtnIcon_pad">
+                <img src="../images/config_icon.png" class="aspectFillImg_80P">
+                </img>
+            </div>
+
+            <div class="menuBtnText_pad" id="configBtnText_Tags">
+                Config
+            </div>
+             
+        </div>
+
+         
+    </div>
+    
+
+    
+
+    
+
+    <!-- --------- CELL LIST ------------ -->  
+    <div id="blistContainer" class="container_pad"  >
+         
+        <div class="list_cell"> 
+            <div class="cell_title">
+                 小明是人物的代称，因这个名字天生有冷笑话的气质，又在学校时以说冷笑话出名，因此成为很多笑话中的主角名字，
+ 
+                
+            </div> 
+            
+            
+            <div class="cell_date">
+                2016-8-03
+            </div>
+            
+            <div class="cell_summary">
+                The 2016 World Rally Championship is the running forty-fourth season of the World Rally Championship, an auto racing championship recognised by the Fédération Internationale de l'Automobile (FIA) as the highest class of international rallying. Teams and drivers compete in fourteen rounds—starting with the Rallye Monte Carlo in January and finishing with Rally Australia in November—for the World Rally Championships for Drivers and Manufacturers.
+
+Sébastien Ogier started the season as the defending drivers' champion. His team, Volkswagen Motorsport, is the defending manufacturers' champions.
+            </div> 
+            
+            <div class="cell_tag_area">
+                <div class="blist_tag_cell">
+                    Objective-C
+                </div>
+                
+                <div class="blist_tag_cell">
+                    WPF
+                </div>
+                
+            </div>
+            
+            <div class="cell_separator"></div> 
+        </div>
+         
+        
+        
+        
+        
+        <div class="list_cell"> 
+            <div class="cell_title">
+                 小明是人物的代称，因这个名字天生有冷笑话的气质，又在学校时以说冷笑话出名，因此成为很多笑话中的主角名字，
+ 
+                
+            </div> 
+            
+            
+            <div class="cell_date">
+                2016-8-03
+            </div>
+            
+            <div class="cell_summary">
+                The 2016 World Rally Championship is the running forty-fourth season of the World Rally Championship, an auto racing championship recognised by the Fédération Internationale de l'Automobile (FIA) as the highest class of international rallying. Teams and drivers compete in fourteen rounds—starting with the Rallye Monte Carlo in January and finishing with Rally Australia in November—for the World Rally Championships for Drivers and Manufacturers.
+
+Sébastien Ogier started the season as the defending drivers' champion. His team, Volkswagen Motorsport, is the defending manufacturers' champions.
+            </div> 
+            
+            <div class="cell_tag_area">
+                <div class="blist_tag_cell">
+                    Objective-C
+                </div>
+                
+                <div class="blist_tag_cell">
+                    WPF
+                </div>
+                
+            </div>
+            
+            <div class="cell_separator"></div> 
+        </div>
+        
+         
+        
+    </div>
+    
+    
+    
+
+    <!-- --------- Phone ------------ --> 
+    <div id="blistHeader_phone">
+          
+        <div id="searchLayer_phone">
+             
+            <div id="closeSearchBtn" class="headerBtn_phone" onclick="search_hide_phone();">
+                
+                <img src="../images/CloseButton.png"
+                     class= "aspectFillImg_60P">
+                </img>
+             
+            </div>
+            
+            <div id="searchBtn_phone" class="headerBtn_phone" onclick="search_show_phone();">
+                
+                <img src="../images/searchIcon.png"
+                     class= "aspectFillImg_60P">
+                </img>
+        
+            </div>
+            
+            <div id="searchInputDiv_phone">
+                <input id="searchInput_phone" type="text" class="blank_input"></input>
+            </div>
+        
+        </div>
+
+
+        <div id="configBtn_phone" onclick="show_tags();">
+            
+            <img src="../images/tag_icon_white.png"
+                     class= "aspectFillImg_60P">
+            </img>
+ 
+        </div>
+ 
+        <div id="headerTitl_phone">
+            BBBBBB
+        </div>  
+          
+    </div>
+
+
+    <!-- --------- Tags Layer ------------ --> 
+    <div id="tagsLayer"> 
+        <div id="tagsLayerBack">
+        </div>
+        
+        <div id="tagsTitle">
+            
+            <div id="tagsCloseButton" onclick="close_tags();"> 
+                <img src="../images/CloseButton.png"
+                     class= "aspectFillImg_60P">
+                </img> 
+            </div> 
+            CHOOSE A TAG
+        </div>
+         
+        <div id="tagsContainer"> 
+        </div> 
+    </div>
+
+
+    <!-- --------- Config Panel ------------ --> 
+
+    <div id="configLayer">
+        <div id="configLayerBack" onclick="hide_config();">
+        </div>
+        
+        
+        <div id="configPanel">
+            <div id="configPanelTitle">
+                Config Panel
+            </div>
+        </div>
+        
+        
+        
+    </div>
+ 
+    
+</body>
+
+</html>

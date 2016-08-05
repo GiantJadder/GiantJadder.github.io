@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html>
+    
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title>Zingbox Release</title>
+        <link rel="stylesheet" href="css/global.css">
+        
+        <link rel="stylesheet" href="css/main.css">
+        <link rel="stylesheet" href="css/main_title.css">
+        <link rel="stylesheet" href="css/main_page.css">
+        
+        <script type="text/javascript" src="js/gs/plugins/CSSPlugin.js" ></script>
+        <script type="text/javascript" src="js/gs/easing/EasePack.js" ></script>
+        <script type="text/javascript" src="js/gs/TweenLite.js" ></script>
+        
+        <style type="text/css">
+            
+        </style>
+        
+        
+        <script type="text/javascript">
+             
+            
+            
+            function resize_foreimg()
+            {
+
+                var rootDiv = document.getElementById("rootDiv");
+                var cw = rootDiv.offsetWidth;
+                var ch = rootDiv.offsetHeight;
+
+                var img_coe = 2560.0 / 1440.0;
+
+                var img_dis_w = cw;
+                var img_dis_h = cw / img_coe;
+
+                if (img_dis_h < ch) {
+                    img_dis_h = ch;
+                    img_dis_w = img_dis_h * img_coe;
+                }
+
+                var img_dis_x = (cw - img_dis_w) * 0.5;
+                var img_dis_y = (ch - img_dis_h) * 0.5;
+
+                var foreImg = document.getElementById("foreImg");
+                foreImg.style.left = img_dis_x + "px";
+                foreImg.style.right = img_dis_y + "px";
+                foreImg.style.width = img_dis_w + "px";
+                foreImg.style.height = img_dis_h + "px";
+            }
+            
+            
+            var src_type = 0;
+            
+            /* ------- window init ------- */
+            window.onload = function winLoadHandler()
+            {
+                
+                src_type = 1; //默认是 fames
+                
+                
+                resize_foreimg();
+                
+               
+                
+                document.getElementById("frame3").src = "global/laboratory/p3.php";
+                document.getElementById("frame4").src = "global/remark/p4.php";
+                
+                
+                
+                <?php 
+
+                    $firstLaunchPageId = $_GET['page'];
+                    $firstLogId = $_GET['logId'];
+                    $srcType = $_GET['srcType'];
+                        
+                    $targetSrcType = 1;
+                    
+                    
+                    if($srcType && $srcType == 2)
+                    {
+                        $targetSrcType = 2;
+                    }
+                    
+                    if($targetSrcType == 1)
+                    {
+                        echo "src_type = 1;";
+                        echo "\n\t";
+                        echo "document.getElementById('frame1').src = 'zfames/p1.html';";
+                    
+                        echo "document.getElementById('foreImg').src = 'images/eic.png';";
+                        echo "document.getElementById('iconImg').src = 'images/fm_app_icon.png';";
+                        
+                    }
+                    else if($targetSrcType == 2)
+                    {
+                        echo "src_type = 2;";
+                        echo "\n\t";
+                        echo "document.getElementById('frame1').src = 'zingbox/p1.html';";
+                        
+                        
+                        echo "document.getElementById('foreImg').src = 'images/fmbg.jpg';";
+                        
+                    }
+ 
+                    echo "\n\t";
+                
+                    
+                    if($firstLaunchPageId == 2 && $firstLogId)
+                    {
+                        echo " document.getElementById('frame2').src = 'global/zlist.php?logId=$firstLogId&srcType=$targetSrcType';";
+                    }
+                    else
+                    {
+                        echo " document.getElementById('frame2').src = 'global/zlist.php?srcType=$targetSrcType'; ";
+                    }
+                    
+                    echo "\n\t";
+                    
+                    if($firstLaunchPageId == 1)
+                    {
+                        echo "goto_page_no_ani(0);";
+                    }
+                    else if($firstLaunchPageId == 2)
+                    {
+                        echo "goto_page_no_ani(1);";
+                    }
+                    else if($firstLaunchPageId == 3)
+                    {
+                        echo "goto_page_no_ani(2);";
+                    }
+                    else if($firstLaunchPageId == 4)
+                    {
+                        echo "goto_page_no_ani(3);";
+                    }
+                
+           
+                ?>
+                
+            }
+            
+            window.onresize = function handle_resize()
+            {
+                resize_foreimg();
+            }
+            
+            
+            /* ------- event handler ------- */
+            function navi_btn_click(eleIndex)
+            {
+                 goto_page_with_ani(eleIndex);
+            }
+            
+            function swap_srcType()
+            {
+                var tarSrcType = 1;
+                if( src_type == 1)
+                {
+                    tarSrcType = 2;
+                }
+                
+                window.location = "http://172.18.103.199/ZB/main.php?srcType=" + tarSrcType;
+            }
+            
+            /* ------- page navigation ------- */
+            
+//                           TweenLite.to(listDiv, 0.5, {left:targetLeft,ease:Strong.easeOut, onComplete:function(){
+//                    
+//                    }
+//                });
+            
+            
+            function goto_page_with_ani(eleIndex)
+            { 
+                var listDiv = document.getElementById("pageList");
+                
+                var targetLeft = ( (-eleIndex) * 100 ) + "%";
+                TweenLite.to(listDiv, 0.5, {left:targetLeft,ease:Strong.easeOut});
+                
+                var tipDiv = document.getElementById("navi_tip");
+                var targetTipDivLeft = ( (eleIndex) * 25 ) + "%";
+                
+                TweenLite.to(tipDiv, 0.5, {left:targetTipDivLeft,ease:Strong.easeOut});
+            }
+            
+            
+            
+            function goto_page_no_ani(eleIndex)
+            {
+                var listDiv = document.getElementById("pageList");
+                
+                var targetLeft = ( (-eleIndex) * 100 ) + "%";
+                
+                listDiv.style.left = targetLeft;
+                
+                
+                var tipDiv = document.getElementById("navi_tip");
+                var targetTipDivLeft = ( (eleIndex) * 25 ) + "%";
+                
+                tipDiv.style.left = targetTipDivLeft;
+            }
+            
+            
+            /* ------- download iap ------- */
+            
+            function https_download_absolute(abPath)
+            {
+                window.location = abPath;
+            }
+ 
+            function http_goto(relativePath)
+            {
+                var tar_path = "http://172.18.103.199/" + relativePath;
+//                alert("http:  \n" +tar_path );
+                window.location = tar_path;
+            }
+            
+            function https_download(relativePath)
+            {
+                var tar_path = "itms-services://?action=download-manifest&url=https://172.18.103.199/" + relativePath;
+                
+//                alert("app:  \n" + tar_path );
+                
+                window.location = tar_path;
+            }
+            
+            
+            
+        </script>
+        
+    </head>
+    
+    
+<body>
+<div id="rootDiv">
+        
+    
+    <img id="foreImg" style="position:absolute;"  />
+    
+    <!-- >>>>>>>>>>>> page list start <<<<<<<<<<<< -->
+    
+    <div id="pagePlaceHolder">
+        
+        <div id="pageList">
+            
+            <div id="p1" class="page">
+                <iframe id="frame1"
+                        class="pageFrame" frameborder="0" scrolling="no" allowtransparency="true"
+                        ></iframe>
+            </div>
+
+            <div id="p2" class="page">
+                <iframe id="frame2"
+                        class="pageFrame" frameborder="0" scrolling="no"
+                        ></iframe>
+            </div>
+
+            <div id="p3" class="page">
+                <iframe id="frame3"
+                        class="pageFrame" frameborder="0" scrolling="no"
+                        ></iframe>
+            </div>
+
+            <div id="p4" class="page">
+                <iframe id="frame4"
+                        class="pageFrame" frameborder="0" scrolling="no"
+                        ></iframe>
+            </div>
+            
+            
+            
+            <!-- 测试滚动 -->
+<!--
+            <div id="p1" class="page"> 
+            </div>
+
+            <div id="p2" class="page"> 
+            </div>
+
+            <div id="p3" class="page"> 
+            </div>
+
+            <div id="p4" class="page"> 
+            </div>
+-->
+            
+            
+            
+        </div> 
+    </div>
+    
+    <!-- <<<<<<<<< page list end >>>>>>>>>>> -->
+    
+    
+    
+    <!-- >>>>>>>>>>>> title bar start <<<<<<<<<<<< -->
+    <div id="titleContainer">
+        <div id="titleContainerBack"></div>
+        
+        <div class="titleButton" style="left:0px;">
+            
+            <div class="aspace_scale_gap_5">
+                <img id="iconImg" class="aspect_fill" src="images/zb.png"></img>
+            </div>
+            
+        </div>
+        <div class="titleButton" style="right:0px;" onclick="swap_srcType();">
+            
+            <div class="aspace_scale_gap_5">
+                <img class="aspect_fill" src="images/menu.png"></img>
+            </div>
+    
+        </div>
+        
+        <div class="titleCompContainer">
+            
+            <div id="title_comp1" class="titleComponent" onclick="navi_btn_click(0);">下载</div>
+            <div id="title_comp2" class="titleComponent" onclick="navi_btn_click(1);">日志</div>
+            <div id="title_comp3" class="titleComponent" onclick="navi_btn_click(2);">工具</div>
+            <div id="title_comp4" class="titleComponent" onclick="navi_btn_click(3);">其他</div>
+            
+            <div id="navi_tip">
+                <div id="navi_tip_cursor"> </div>
+            </div>
+        </div>
+        
+    </div>
+    <!-- <<<<<<<<< title bar end >>>>>>>>>>> -->
+    
+    
+    
+</div>
+</body>
+
+</html>

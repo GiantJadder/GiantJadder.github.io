@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html>
+    
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        
+        
+    
+        <title>Test</title>
+        
+        <link rel="stylesheet" href="../css/global.css">
+        
+        
+        <style type="text/css">
+            
+            .btnTest
+            {
+                position: absolute;
+                cursor: pointer;
+                width: 100px;
+                height: 50px;
+                
+                left: 50px;
+                top: 50px;
+                
+                color: white;
+                text-align: center;
+                line-height: 50px;
+                
+                background-color: dodgerblue;
+            }
+            
+ 
+            .leftDiv_Pad
+            {
+                position: absolute;
+                left: 0px;
+                top: 0px;
+                
+                width: 200px;
+                height: 100%;
+             
+                background-color: brown;
+            }
+ 
+            
+            
+            .rightDiv_Pad
+            {
+                position: absolute;
+                left: 210px;
+                top: 0px;
+                
+                right: 80px;
+                height: 100%;
+             
+                background-color: orchid;
+                
+                overflow-x: scroll;
+                overflow-y: hidden; 
+            }
+            
+            #listContent
+            {
+                position: absolute; 
+                left: 0px;
+               
+                 
+                top: 20px;
+                bottom: 20px;
+                
+                
+                background-color: cornflowerblue;
+                
+                display: block;
+                float: left;
+            }
+            
+            
+             
+            
+            
+                
+            
+            .rightDiv_Phone
+            {
+                position: absolute;
+                left: 10px;
+                
+                
+                right: 10px;
+                
+                top: 0px;
+                height: 100%;
+             
+                background-color: orchid;
+                
+                overflow: hidden;
+            }
+            
+            
+            .page_panel
+            {
+                position: absolute;
+                top: 0px;
+                left: 0px;
+                
+                width: 400px;
+                height: 100%;
+                
+                overflow: hidden;
+                
+/*
+                overflow-x: hidden;
+                overflow-y: scroll;
+*/
+            }
+            
+            
+          
+            
+      
+            
+            
+            
+            #infoPanel{
+                position: absolute;
+                width: 100px;
+                height: 100px;
+                top:0px;
+                right:0px;
+                
+                background-color: black;
+                color: beige;
+            }
+        </style>
+        
+        
+        <script type="text/javascript">
+             
+            
+            /* ip 6s plus  414 */
+            /* ipad plus  768 */
+            
+            
+            var trigger_win_width = 600;
+            
+            
+            var boundary_1 = 1024;
+            var boundary_2 = 1600;
+            var boundary_3 = 2200;
+            
+            
+            
+            function tt()
+            {
+                 
+            }
+            
+            window.onresize = function handleResize()
+            {
+                var rootDiv = document.getElementById("rootDiv");
+                var cw = rootDiv.offsetWidth;
+                var ch = rootDiv.offsetHeight;
+                
+                var display_str = "width: " + cw + "<br />";
+                display_str += "height: " + ch + "<br />";
+        
+                var infoPanel = document.getElementById("infoPanel");
+                infoPanel.innerHTML = display_str;
+ 
+                if(cw < trigger_win_width)
+                {
+                    goto_phone_status();
+                }
+                else    
+                {
+                    goto_pad_status();
+                }
+                
+            }
+            
+            function goto_phone_status()
+            {     
+                var leftDiv = document.getElementById("leftDiv");
+                var rightDiv = document.getElementById("rightDiv");
+            
+                leftDiv.style.display = 'none';
+                rightDiv.className = 'rightDiv_Phone';
+                
+            }
+            
+            function goto_pad_status()
+            {   
+                var leftDiv = document.getElementById("leftDiv");
+                var rightDiv = document.getElementById("rightDiv");
+            
+                leftDiv.style.display = 'block';
+                rightDiv.className = 'rightDiv_Pad';
+            }
+             
+        </script>
+        
+        
+    </head>
+ 
+    
+<body bgcolor="orange">
+<div id="rootDiv">
+
+   
+    <div id="leftDiv" class="leftDiv_Pad">
+    </div>
+    
+    
+    <div id="rightDiv" class="rightDiv_Pad">
+
+        
+        <div id="listContent">
+            
+  
+            
+ 
+        <div class="page_panel" style="background-color:blue;">
+            AABBCC
+             
+        </div>
+        
+        <div class="page_panel" style="background-color:green; left:400px; ">
+            AABBCC
+        </div>
+        
+        <div class="page_panel" style="background-color:pink;  left:800px; ">
+            AABBCC
+        </div>
+ 
+            
+            
+        </div>
+        
+
+        
+        
+        
+        
+    </div>
+ 
+    
+    <div class="btnTest" onclick="tt();">Test</div>
+   
+    
+    <div id="infoPanel">
+    
+    </div>
+    
+    
+</div>   
+</body>
+
+</html>

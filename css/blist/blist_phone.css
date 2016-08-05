@@ -1,0 +1,125 @@
+@charset "utf-8";
+/* CSS Document */
+ 
+
+.container_phone
+{
+    position: relative;
+     
+    width: 100%;
+ 
+    margin-left: 0px;
+    margin-right: 0px;
+    
+    margin-top: 60px;
+    margin-bottom: 40px;
+    
+/*    background-color: aquamarine;*/
+      
+}
+
+/* ----------  HEADER ------------ */
+
+#blistHeader_phone
+{
+    
+    position: absolute;
+    left: 0px;
+    top: 0px;
+    
+    width:100%;
+    height: 60px;
+     
+    overflow: visible;
+}
+
+
+/* ----------  SEARCH ------------ */
+#searchLayer_phone
+{
+    position: absolute;
+    
+    left: 0px;
+    width: 100%;
+    
+    top: -60px;
+    height: 120px;
+    
+    background-color: #3b3c3d;
+    
+    
+/*    background-color: darkcyan;*/
+}
+
+
+#searchInputDiv_phone
+{
+    position: absolute;
+    
+    left: 10px;
+    right: 60px;
+    
+    top: 60px;
+    height: 60px;
+     
+}
+
+
+.headerBtn_phone{
+    position: absolute;
+     
+    top: 0px;
+    right: 0px;
+    
+    height: 60px;
+    width: 60px;
+    
+    background-color: #1d1f21;
+    
+    cursor: pointer;
+}
+
+
+
+#searchBtn_phone{
+    top: 60px; 
+}
+
+#closeSearchBtn{  
+}
+
+
+/* ----------  ConfigBtn ------------ */
+#configBtn_phone{
+    
+    position: absolute;
+    
+    left: 0px;
+    top: 0px;
+    
+    height: 60px;
+    width: 60px;
+    
+    background-color: #1d1f21;
+}
+
+
+/* ----------  Title ------------ */
+#headerTitl_phone{
+    position: absolute;
+    
+    left: 60px;
+    right: 60px;
+    top: 0px;
+    height: 60px;
+    
+    line-height: 60px;
+    text-align: center;
+    
+    background-color: #1d1f21;
+    
+}
+
+
+  
+
